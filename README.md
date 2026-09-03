@@ -4,7 +4,7 @@ Interaktiv jeopardy-quiz til vennegruppen, bygget til at blive kørt af én quiz
 
 - **1 fil, ingen installation.** Åbn `index.html` i browseren. Virker offline (kun skrifttyperne hentes fra nettet).
 - **Holdspil.** 7 deltagere fordelt på 2–5 hold, med lodtrækning indbygget. Quizmasteren står udenfor.
-- **35 spørgsmål** i syv kategorier: Chamonix-dalen, Mont Blanc, ski, lavinesikkerhed, après-ski, bjerge — og "Klub & årstal", hvor et klubnavn og et årstal skal oversættes til en spiller.
+- **30 spørgsmål** i seks kategorier: Chamonix-dalen, geografi og natur, ekstremsport, outdoor-mærker, fransk mad — og "Klub & årstal", hvor et klubnavn og et årstal skal oversættes til en spiller.
 
 ## Sådan spiller I
 
