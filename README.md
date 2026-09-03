@@ -3,21 +3,22 @@
 Interaktiv jeopardy-quiz til vennegruppen, bygget til at blive kørt af én quizmaster fra en telefon.
 
 - **1 fil, ingen installation.** Åbn `index.html` i browseren. Virker offline (kun skrifttyperne hentes fra nettet).
-- **7 deltagere + quizmaster** som standard — kan sættes til 2–12.
+- **Holdspil.** 7 deltagere fordelt på 2–5 hold, med lodtrækning indbygget. Quizmasteren står udenfor.
 - **30 spørgsmål** i seks kategorier om Chamonix, Mont Blanc, ski, lavinesikkerhed, après-ski og bjerge.
 
 ## Sådan spiller I
 
 Der spilles om **højdemeter** i stedet for point: 500 / 1000 / 2000 / 3000 / **4810** (Mont Blancs højde).
 
-1. Skriv deltagernes navne ind, vælg betænkningstid, og tryk **Start quizzen**.
-2. Deltageren i tur vælger en kategori og en værdi. Quizmasteren trykker på feltet og læser spørgsmålet op.
-3. Uret løber. Tryk **Vis svar** når nogen byder ind eller tiden er gået.
-4. Tryk ✓ ud for den, der svarede rigtigt (feltet lukkes), eller ✗ ud for en forkert svarende (feltet bliver åbent, så andre kan byde).
-5. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun den, der valgte feltet, må svare, og vedkommende sætter selv sine højdemeter på spil.
-6. **Toppen** — når alle 30 felter er taget, går spillet automatisk i finale. Alle skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
+1. Skriv deltagernes navne ind, vælg antal hold, og tryk **Træk lod om holdene**. Tryk på et navn for at flytte det til næste hold, hvis lodtrækningen skal justeres, og skriv holdnavnene om efter smag. Tre hold er standard.
+2. Vælg betænkningstid og tryk **Start quizzen**.
+3. Holdet i tur vælger en kategori og en værdi. Quizmasteren trykker på feltet og læser spørgsmålet op.
+4. Uret løber. Tryk **Vis svar**, når et hold byder ind eller tiden er gået.
+5. Tryk ✓ ud for holdet, der svarede rigtigt (feltet lukkes), eller ✗ ud for et hold, der svarede forkert (feltet bliver åbent, så de andre hold kan byde).
+6. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil.
+7. **Toppen** — når alle 30 felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
 
-Menuen (☰) giver adgang til at rette højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
+Menuen (☰) giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
 
 Spillet gemmes løbende i browseren, så en utilsigtet genindlæsning ikke koster runden.
 
@@ -37,7 +38,7 @@ const KATEGORIER = [
 const FINALE = { kategori: "...", q: "...", a: "..." };
 ```
 
-Rækkefølgen i `spm` følger `VAERDIER`. Vil I have flere eller færre kategorier, så tilføj/fjern objekter i `KATEGORIER` — brættet tilpasser sig selv. `ANTAL_SPALTER` styrer hvor mange daily doubles der lægges ud (tilfældigt placeret ved hvert nyt spil, aldrig på 500-rækken).
+Rækkefølgen i `spm` følger `VAERDIER`. Vil I have flere eller færre kategorier, så tilføj/fjern objekter i `KATEGORIER` — brættet tilpasser sig selv. `ANTAL_SPALTER` styrer hvor mange daily doubles der lægges ud (tilfældigt placeret ved hvert nyt spil, aldrig på 500-rækken), og `HOLDNAVNE` er de forvalgte holdnavne.
 
 Faktaspørgsmålene er skrevet med de tal, der gjaldt da quizzen blev lavet — tjek gerne rekorderne igennem inden I spiller.
 

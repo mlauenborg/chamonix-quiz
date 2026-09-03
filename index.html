@@ -84,17 +84,18 @@ input{font:inherit;color:inherit}
   scrollbar-width:none;background:#161B21;
 }
 .score::-webkit-scrollbar{display:none}
-.spiller{
-  flex:0 0 auto;min-width:74px;padding:6px 9px 7px;
+.hold{
+  flex:1 1 0;min-width:96px;max-width:200px;padding:6px 9px 7px;
   background:var(--granit-2);border:1px solid var(--kant);border-radius:var(--r);
   border-top:2px solid var(--kant);
 }
-.spiller.foerer{border-top-color:var(--messing);background:#232A22}
-.spiller .navn{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:12px;color:var(--sne-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
-.spiller.foerer .navn{color:var(--messing)}
-.spiller .hm{font-family:var(--tal);font-variant-numeric:tabular-nums;font-weight:600;font-size:16px;margin-top:1px}
-.spiller .hm.minus{color:var(--roed)}
-.spiller .hm small{font-size:10px;color:var(--sne-dim);font-weight:500;margin-left:2px}
+.hold.foerer{border-top-color:var(--messing);background:#232A22}
+.hold .navn{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:13px;color:var(--sne-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hold.foerer .navn{color:var(--messing)}
+.hold .hm{font-family:var(--tal);font-variant-numeric:tabular-nums;font-weight:600;font-size:17px;margin-top:1px;line-height:1.1}
+.hold .hm.minus{color:var(--roed)}
+.hold .hm small{font-size:10px;color:var(--sne-dim);font-weight:500;margin-left:2px}
+.hold .med{font-size:10px;line-height:1.3;color:#6E7C88;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* ---------- Brættet ---------- */
 .braet{flex:1;padding:12px 14px calc(18px + var(--sikker-bund));display:flex;flex-direction:column;gap:10px;justify-content:space-between}
@@ -169,6 +170,17 @@ input{font:inherit;color:inherit}
 }
 .tildel-rk .n{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tildel-rk .s{font-family:var(--tal);font-variant-numeric:tabular-nums;font-size:13px;color:var(--sne-dim)}
+.tildel-rk .n em{font-style:normal;display:block;font-family:var(--br);font-weight:400;font-size:11px;letter-spacing:0;text-transform:none;color:#6E7C88;overflow:hidden;text-overflow:ellipsis}
+.holdkort{background:var(--granit-2);border:1px solid var(--kant);border-radius:var(--r);padding:8px;display:flex;flex-direction:column;gap:7px}
+.holdkort .felt{padding:8px 10px;font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.07em;font-size:16px;background:#11151A}
+.chips{display:flex;flex-wrap:wrap;gap:5px;min-height:30px}
+.chip{
+  padding:5px 10px;border:1px solid var(--is-dyb);border-radius:99px;background:#17242A;
+  color:var(--is);font-size:13px;line-height:1.2;
+}
+.chip:active{background:#22383F}
+.chips:empty::after{content:"Ingen på holdet endnu";color:#5C6975;font-size:12px;padding:6px 2px}
+.hint{font-size:12px;color:#6E7C88;margin:0}
 .dom{
   height:38px;border-radius:var(--r-lille);display:grid;place-items:center;
   font-size:19px;font-weight:600;border:1px solid;
@@ -274,7 +286,7 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
         <b>1&nbsp;035&nbsp;m</b> dalen <span>4&nbsp;810&nbsp;m toppen</span>
       </div>
     </div>
-    <p class="under">30 spørgsmål i seks kategorier. Der spilles om højdemeter &ndash; jo sværere spørgsmål, jo højere op. Quizmasteren styrer alt herfra.</p>
+    <p class="under">30 spørgsmål i seks kategorier. Holdene spiller om højdemeter &ndash; jo sværere spørgsmål, jo højere op. Quizmasteren styrer alt herfra.</p>
 
     <h3 class="sek">Deltagere</h3>
     <div class="navne" id="navne"></div>
@@ -282,6 +294,14 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
       <button class="mini" id="tilfoej-spiller">+ Deltager</button>
       <button class="mini" id="fjern-spiller">&minus; Deltager</button>
     </div>
+
+    <h3 class="sek">Antal hold</h3>
+    <div class="valg" id="hold-antal"></div>
+    <div class="raekke">
+      <button class="mini" id="traek-lod">Træk lod om holdene</button>
+    </div>
+    <div class="navne" id="hold-liste"></div>
+    <p class="hint">Tryk på et navn for at flytte det til næste hold. Holdnavnene kan skrives om.</p>
 
     <h3 class="sek">Betænkningstid</h3>
     <div class="valg" id="tid-valg"></div>
@@ -326,8 +346,8 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
     <span class="spalte-mrk">Spalten</span>
     <h1 class="hoved" style="font-size:clamp(26px,7.5vw,38px)">Sæt<em>højdemeter</em></h1>
     <p class="under" id="spalte-info"></p>
-    <h3 class="sek">Hvem valgte feltet?</h3>
-    <div class="valg" id="spalte-spillere"></div>
+    <h3 class="sek">Hvilket hold valgte feltet?</h3>
+    <div class="valg" id="spalte-hold"></div>
     <h3 class="sek">Indsats</h3>
     <div class="indsats-rk"><span class="n">Højdemeter<em id="spalte-graense"></em></span><input type="number" inputmode="numeric" id="spalte-indsats" min="0" step="100" value="1000"></div>
     <div class="valg" id="spalte-hurtig"></div>
@@ -341,7 +361,7 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
   <div class="panel-ind">
     <span class="spalte-mrk">Toppen</span>
     <h1 class="hoved" style="font-size:clamp(26px,8vw,40px)">Sidste<em>reb-længde</em></h1>
-    <p class="under">Alle svarer på det samme spørgsmål. Skriv jeres indsats <b>før</b> spørgsmålet læses op &ndash; man kan højst satse sine egne højdemeter.</p>
+    <p class="under">Alle hold svarer på det samme spørgsmål. Skriv indsatsen <b>før</b> spørgsmålet læses op &ndash; et hold kan højst satse sine egne højdemeter.</p>
     <div class="hoejde-linje"><b>Kategori</b><span id="finale-kat"></span></div>
     <div class="navne" id="finale-indsatser"></div>
     <button class="stor" id="finale-start">Læs spørgsmålet</button>
@@ -492,7 +512,9 @@ const FINALE = {
   a: "Compagnie des Guides de Chamonix — Chamonix' bjergførerkompagni"
 };
 
-const STANDARD_NAVNE = ["Deltager 1","Deltager 2","Deltager 3","Deltager 4","Deltager 5","Deltager 6","Deltager 7"];
+const STANDARD_DELTAGERE = ["Deltager 1","Deltager 2","Deltager 3","Deltager 4","Deltager 5","Deltager 6","Deltager 7"];
+const HOLDNAVNE = ["Les Drus","Le Brévent","Grands Montets","L'Index","Le Tour","La Flégère"];
+const STANDARD_ANTAL_HOLD = 3;
 const TIDSVALG = [
   { v: 0,  t: "Fra" },
   { v: 20, t: "20 sek" },
@@ -525,7 +547,7 @@ function hent(){
     const r = localStorage.getItem(NOEGLE);
     if(!r) return null;
     const d = JSON.parse(r);
-    return (d && Array.isArray(d.spillere) && d.spillere.length) ? d : null;
+    return (d && Array.isArray(d.hold) && d.hold.length) ? d : null;
   } catch(e){ return null; }
 }
 
@@ -569,9 +591,9 @@ function nyeSpalter(){
   }
   return valgt;
 }
-function nytSpil(navne, tid, lyd){
+function nytSpil(hold, tid, lyd){
   S = {
-    spillere: navne.map(n => ({ navn: n, hm: 0 })),
+    hold: hold.map(h => ({ navn: h.navn, medlemmer: h.medlemmer.slice(), hm: 0 })),
     brugt: [],
     spalter: nyeSpalter(),
     tid: tid,
@@ -586,25 +608,26 @@ function nytSpil(navne, tid, lyd){
 
 /* ---------- Fortryd ---------- */
 function snapshot(){
-  fortrydStak.push(JSON.stringify({ spillere: S.spillere, brugt: S.brugt, fase: S.fase, finaleIndsats: S.finaleIndsats, finaleDom: S.finaleDom }));
+  fortrydStak.push(JSON.stringify({ hold: S.hold, brugt: S.brugt, fase: S.fase, finaleIndsats: S.finaleIndsats, finaleDom: S.finaleDom }));
   if(fortrydStak.length > 30) fortrydStak.shift();
 }
 function fortryd(){
   const s = fortrydStak.pop();
   if(!s) return;
   const d = JSON.parse(s);
-  S.spillere = d.spillere; S.brugt = d.brugt; S.fase = d.fase;
+  S.hold = d.hold; S.brugt = d.brugt; S.fase = d.fase;
   S.finaleIndsats = d.finaleIndsats; S.finaleDom = d.finaleDom;
   gem(); tegnAlt();
 }
 
 /* ---------- Tegn scoreboard + bræt ---------- */
 function tegnScore(){
-  const top = Math.max(...S.spillere.map(p => p.hm));
-  $("#score").innerHTML = S.spillere.map(p => `
-    <div class="spiller${(p.hm === top && top > 0) ? " foerer" : ""}">
-      <div class="navn">${esc(p.navn)}</div>
-      <div class="hm${p.hm < 0 ? " minus" : ""}">${hm(p.hm)}<small>hm</small></div>
+  const top = Math.max(...S.hold.map(h => h.hm));
+  $("#score").innerHTML = S.hold.map(h => `
+    <div class="hold${(h.hm === top && top > 0) ? " foerer" : ""}">
+      <div class="navn">${esc(h.navn)}</div>
+      <div class="hm${h.hm < 0 ? " minus" : ""}">${hm(h.hm)}<small>hm</small></div>
+      <div class="med">${esc(h.medlemmer.join(" · "))}</div>
     </div>`).join("");
 }
 function tegnBraet(){
@@ -676,21 +699,21 @@ function visSvar(){
 }
 function tegnTildel(){
   const v = aktiv.indsats !== null ? aktiv.indsats : aktiv.vaerdi;
-  const liste = aktiv.spalte ? [S.spillere[aktiv.spiller]] : S.spillere;
-  $("#tildel").innerHTML = liste.map(p => {
-    const i = S.spillere.indexOf(p);
+  const liste = aktiv.spalte ? [S.hold[aktiv.hold]] : S.hold;
+  $("#tildel").innerHTML = liste.map(h => {
+    const i = S.hold.indexOf(h);
     return `<div class="tildel-rk">
-      <button class="dom nej" data-dom="nej" data-i="${i}" aria-label="Forkert: ${esc(p.navn)}">&times;</button>
-      <span class="n">${esc(p.navn)}</span>
-      <span class="s">${hm(p.hm)}</span>
-      <button class="dom ja" data-dom="ja" data-i="${i}" aria-label="Rigtigt: ${esc(p.navn)}">&check;</button>
+      <button class="dom nej" data-dom="nej" data-i="${i}" aria-label="Forkert: ${esc(h.navn)}">&times;</button>
+      <span class="n">${esc(h.navn)}<em>${esc(h.medlemmer.join(" · "))}</em></span>
+      <span class="s">${hm(h.hm)}</span>
+      <button class="dom ja" data-dom="ja" data-i="${i}" aria-label="Rigtigt: ${esc(h.navn)}">&check;</button>
     </div>`;
   }).join("") + `<p class="tom">Rigtigt svar: ${hm(v)} hm · forkert: −${hm(v)} hm</p>`;
 }
 function afgoer(i, rigtigt){
   const v = aktiv.indsats !== null ? aktiv.indsats : aktiv.vaerdi;
   snapshot();
-  S.spillere[i].hm += rigtigt ? v : -v;
+  S.hold[i].hm += rigtigt ? v : -v;
   if(rigtigt || aktiv.spalte){
     if(!S.brugt.includes(aktiv.id)) S.brugt.push(aktiv.id);
     gem(); lukKlue();
@@ -711,16 +734,16 @@ function lukKlue(brugOp){
 
 /* ---------- Spalten ---------- */
 function visSpalte(){
-  aktiv.spiller = null;
-  $("#spalte-info").textContent = "Feltet er en spalte: kun den, der valgte det, får lov at svare — og sætter selv højdemeter på spil.";
-  $("#spalte-spillere").innerHTML = S.spillere.map((p, i) =>
-    `<button class="mini" data-spalte-spiller="${i}" aria-pressed="false">${esc(p.navn)}</button>`).join("");
+  aktiv.hold = null;
+  $("#spalte-info").textContent = "Feltet er en spalte: kun det hold, der valgte det, får lov at svare — og sætter selv højdemeter på spil.";
+  $("#spalte-hold").innerHTML = S.hold.map((h, i) =>
+    `<button class="mini" data-spalte-hold="${i}" aria-pressed="false">${esc(h.navn)}</button>`).join("");
   opdaterSpalteGraense();
   $("#spalte-lag").hidden = false;
   $("#spalte-lag").scrollTop = 0;
 }
 function spalteMaks(){
-  const egne = aktiv.spiller !== null ? S.spillere[aktiv.spiller].hm : 0;
+  const egne = aktiv.hold !== null ? S.hold[aktiv.hold].hm : 0;
   return Math.max(egne, VAERDIER[VAERDIER.length - 1]);
 }
 function opdaterSpalteGraense(){
@@ -739,10 +762,10 @@ function opdaterSpalteGraense(){
 function aabnFinale(){
   S.fase = "finale"; gem();
   $("#finale-kat").textContent = FINALE.kategori;
-  $("#finale-indsatser").innerHTML = S.spillere.map((p, i) => {
-    const maks = Math.max(0, p.hm);
+  $("#finale-indsatser").innerHTML = S.hold.map((h, i) => {
+    const maks = Math.max(0, h.hm);
     return `<div class="indsats-rk">
-      <span class="n">${esc(p.navn)}<em>maks. ${hm(maks)} hm</em></span>
+      <span class="n">${esc(h.navn)}<em>maks. ${hm(maks)} hm</em></span>
       <input type="number" inputmode="numeric" min="0" max="${maks}" step="100"
              value="${S.finaleIndsats[i] != null ? S.finaleIndsats[i] : maks}" data-indsats="${i}">
     </div>`;
@@ -753,7 +776,7 @@ function aabnFinale(){
 function startFinaleKlue(){
   $$("#finale-indsatser input").forEach(inp => {
     const i = +inp.dataset.indsats;
-    const maks = Math.max(0, S.spillere[i].hm);
+    const maks = Math.max(0, S.hold[i].hm);
     S.finaleIndsats[i] = Math.min(Math.max(0, Math.round(+inp.value || 0)), maks);
   });
   gem();
@@ -771,54 +794,85 @@ function startFinaleKlue(){
   startUr();
 }
 function tegnFinaleTildel(){
-  $("#tildel").innerHTML = S.spillere.map((p, i) => {
+  $("#tildel").innerHTML = S.hold.map((h, i) => {
     const d = S.finaleDom[i];
     return `<div class="tildel-rk" style="${d === true ? "border-color:#3E5C33" : d === false ? "border-color:#5C3230" : ""}">
-      <button class="dom nej" data-fdom="nej" data-i="${i}" style="${d === false ? "filter:brightness(1.6)" : ""}" aria-label="Forkert: ${esc(p.navn)}">&times;</button>
-      <span class="n">${esc(p.navn)}<span class="s" style="display:block">${hm(p.hm)} hm · satser ${hm(S.finaleIndsats[i] || 0)}</span></span>
+      <button class="dom nej" data-fdom="nej" data-i="${i}" style="${d === false ? "filter:brightness(1.6)" : ""}" aria-label="Forkert: ${esc(h.navn)}">&times;</button>
+      <span class="n">${esc(h.navn)}<em>${hm(h.hm)} hm · satser ${hm(S.finaleIndsats[i] || 0)}</em></span>
       <span class="s">${d === true ? "+" + hm(S.finaleIndsats[i] || 0) : d === false ? "−" + hm(S.finaleIndsats[i] || 0) : "–"}</span>
-      <button class="dom ja" data-fdom="ja" data-i="${i}" style="${d === true ? "filter:brightness(1.6)" : ""}" aria-label="Rigtigt: ${esc(p.navn)}">&check;</button>
+      <button class="dom ja" data-fdom="ja" data-i="${i}" style="${d === true ? "filter:brightness(1.6)" : ""}" aria-label="Rigtigt: ${esc(h.navn)}">&check;</button>
     </div>`;
-  }).join("") + `<p class="tom">Markér hver deltager, og afslut nederst.</p>`;
+  }).join("") + `<p class="tom">Markér hvert hold, og afslut nederst.</p>`;
 }
 function afslutFinale(){
   stopUr();
   snapshot();
-  S.spillere.forEach((p, i) => {
+  S.hold.forEach((h, i) => {
     const d = S.finaleDom[i];
-    if(d === true)  p.hm += (S.finaleIndsats[i] || 0);
-    if(d === false) p.hm -= (S.finaleIndsats[i] || 0);
+    if(d === true)  h.hm += (S.finaleIndsats[i] || 0);
+    if(d === false) h.hm -= (S.finaleIndsats[i] || 0);
   });
   S.finaleDom = {}; S.fase = "slut"; gem();
   $("#klue-lag").hidden = true;
   visResultat();
 }
 function visResultat(){
-  const raekke = S.spillere.map((p, i) => ({ ...p, i })).sort((a, b) => b.hm - a.hm);
+  const raekke = S.hold.map((h, i) => ({ ...h, i })).sort((a, b) => b.hm - a.hm);
   $("#vinder-navn").textContent = raekke[0] ? raekke[0].navn : "";
-  $("#podie").innerHTML = raekke.map((p, n) =>
+  $("#podie").innerHTML = raekke.map((h, n) =>
     `<div class="plads${n === 0 ? " et" : ""}">
        <span class="p">${n + 1}.</span>
-       <span class="n">${esc(p.navn)}</span>
-       <span class="h">${hm(p.hm)} hm</span>
+       <span class="n">${esc(h.navn)}<em style="font-style:normal;display:block;font-family:var(--br);font-weight:400;font-size:11px;letter-spacing:0;text-transform:none;color:#6E7C88">${esc(h.medlemmer.join(" · "))}</em></span>
+       <span class="h">${hm(h.hm)} hm</span>
      </div>`).join("");
   $("#resultat-lag").hidden = false;
   $("#resultat-lag").scrollTop = 0;
 }
 
 /* ---------- Opsætningsskærm ---------- */
-let opsaetNavne = STANDARD_NAVNE.slice();
+let opsaetDeltagere = STANDARD_DELTAGERE.slice();
+let opsaetHold = [];
 let opsaetTid = 30, opsaetLyd = 1;
 
+function bland(a){
+  const b = a.slice();
+  for(let i = b.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+}
+function saetAntalHold(antal, lodtraekning){
+  const gamleNavne = opsaetHold.map(h => h.navn);
+  opsaetHold = Array.from({ length: antal }, (_, i) => ({
+    navn: gamleNavne[i] || HOLDNAVNE[i] || ("Hold " + (i + 1)),
+    medlemmer: []
+  }));
+  const raekke = lodtraekning ? bland(opsaetDeltagere) : opsaetDeltagere.slice();
+  raekke.forEach((n, i) => opsaetHold[i % antal].medlemmer.push(n));
+}
 function tegnOpsaet(){
-  $("#navne").innerHTML = opsaetNavne.map((n, i) =>
+  $("#navne").innerHTML = opsaetDeltagere.map((n, i) =>
     `<div class="navn-rk">
        <span class="nr">${i + 1}</span>
        <input class="felt" type="text" maxlength="14" value="${esc(n)}" data-navn="${i}"
               placeholder="Navn" autocomplete="off" autocapitalize="words" spellcheck="false">
      </div>`).join("");
-  $("#tilfoej-spiller").disabled = opsaetNavne.length >= 12;
-  $("#fjern-spiller").disabled  = opsaetNavne.length <= 2;
+  $("#tilfoej-spiller").disabled = opsaetDeltagere.length >= 16;
+  $("#fjern-spiller").disabled  = opsaetDeltagere.length <= 2;
+
+  $("#hold-antal").innerHTML = [2, 3, 4, 5].map(a =>
+    `<button class="mini" data-antal="${a}" aria-pressed="${a === opsaetHold.length}"
+             ${a > opsaetDeltagere.length ? "disabled" : ""}>${a} hold</button>`).join("");
+
+  $("#hold-liste").innerHTML = opsaetHold.map((h, hi) =>
+    `<div class="holdkort">
+       <input class="felt" type="text" maxlength="16" value="${esc(h.navn)}" data-holdnavn="${hi}"
+              placeholder="Holdnavn" autocomplete="off" spellcheck="false">
+       <div class="chips">${h.medlemmer.map(m =>
+         `<button class="chip" data-flyt="${esc(m)}">${esc(m)}</button>`).join("")}</div>
+     </div>`).join("");
+
   tegnTidsvalg("#tid-valg", opsaetTid);
   markerLyd("#lyd-valg", opsaetLyd);
 }
@@ -829,19 +883,47 @@ function tegnTidsvalg(sel, vaerdi){
 function markerLyd(sel, paa){
   $$(sel + " [data-lyd]").forEach(b => b.setAttribute("aria-pressed", (+b.dataset.lyd === (paa ? 1 : 0))));
 }
-function laesNavne(){
+function laesOpsaet(){
   $$("#navne input[data-navn]").forEach(inp => {
-    const v = inp.value.trim();
-    opsaetNavne[+inp.dataset.navn] = v || ("Deltager " + (+inp.dataset.navn + 1));
+    const i = +inp.dataset.navn;
+    const gammelt = opsaetDeltagere[i];
+    const nyt = inp.value.trim() || ("Deltager " + (i + 1));
+    if(nyt !== gammelt){
+      opsaetDeltagere[i] = nyt;
+      opsaetHold.forEach(h => {
+        const k = h.medlemmer.indexOf(gammelt);
+        if(k > -1) h.medlemmer[k] = nyt;
+      });
+    }
   });
+  $$("#hold-liste input[data-holdnavn]").forEach(inp => {
+    const i = +inp.dataset.holdnavn;
+    opsaetHold[i].navn = inp.value.trim() || HOLDNAVNE[i] || ("Hold " + (i + 1));
+  });
+}
+function flytDeltager(navn){
+  const fra = opsaetHold.findIndex(h => h.medlemmer.includes(navn));
+  if(fra < 0) return;
+  const til = (fra + 1) % opsaetHold.length;
+  opsaetHold[fra].medlemmer = opsaetHold[fra].medlemmer.filter(m => m !== navn);
+  opsaetHold[til].medlemmer.push(navn);
+}
+function tilbageTilOpsaet(){
+  opsaetDeltagere = S.hold.flatMap(h => h.medlemmer);
+  opsaetHold = S.hold.map(h => ({ navn: h.navn, medlemmer: h.medlemmer.slice() }));
+  opsaetTid = S.tid; opsaetLyd = S.lyd;
+  $("#app").hidden = true;
+  $("#opsaet").hidden = false;
+  $("#fortsaet-knap").hidden = true;
+  tegnOpsaet();
 }
 
 /* ---------- Menu ---------- */
 function aabnMenu(){
-  $("#just-liste").innerHTML = S.spillere.map((p, i) =>
+  $("#just-liste").innerHTML = S.hold.map((h, i) =>
     `<div class="just">
-       <span class="n">${esc(p.navn)}</span>
-       <span class="s">${hm(p.hm)} hm</span>
+       <span class="n">${esc(h.navn)}</span>
+       <span class="s">${hm(h.hm)} hm</span>
        <span style="display:flex;gap:6px">
          <button class="mini" data-just="${i}" data-delta="-500">−500</button>
          <button class="mini" data-just="${i}" data-delta="500">+500</button>
@@ -922,11 +1004,11 @@ $("#tildel").addEventListener("click", e => {
   }
 });
 
-$("#spalte-spillere").addEventListener("click", e => {
-  const b = e.target.closest("[data-spalte-spiller]");
+$("#spalte-hold").addEventListener("click", e => {
+  const b = e.target.closest("[data-spalte-hold]");
   if(!b) return;
-  aktiv.spiller = +b.dataset.spalteSpiller;
-  $$("#spalte-spillere .mini").forEach(x => x.setAttribute("aria-pressed", x === b));
+  aktiv.hold = +b.dataset.spalteHold;
+  $$("#spalte-hold .mini").forEach(x => x.setAttribute("aria-pressed", x === b));
   opdaterSpalteGraense();
 });
 $("#spalte-hurtig").addEventListener("click", e => {
@@ -934,7 +1016,7 @@ $("#spalte-hurtig").addEventListener("click", e => {
   if(b) $("#spalte-indsats").value = b.dataset.hurtig;
 });
 $("#spalte-start").addEventListener("click", () => {
-  if(aktiv.spiller === null){ $("#spalte-info").textContent = "Vælg først hvem der valgte feltet."; return; }
+  if(aktiv.hold === null){ $("#spalte-info").textContent = "Vælg først hvilket hold der valgte feltet."; return; }
   aktiv.indsats = Math.min(Math.max(0, Math.round(+$("#spalte-indsats").value || 0)), spalteMaks());
   $("#spalte-lag").hidden = true;
   visKlue();
@@ -946,10 +1028,7 @@ $("#finale-retur").addEventListener("click", () => { $("#finale-lag").hidden = t
 $("#resultat-retur").addEventListener("click", () => { $("#resultat-lag").hidden = true; tegnAlt(); });
 $("#nyt-spil").addEventListener("click", () => {
   $("#resultat-lag").hidden = true;
-  opsaetNavne = S.spillere.map(p => p.navn);
-  opsaetTid = S.tid; opsaetLyd = S.lyd;
-  $("#app").hidden = true; $("#opsaet").hidden = false; $("#fortsaet-knap").hidden = true;
-  tegnOpsaet();
+  tilbageTilOpsaet();
 });
 
 $("#fortryd-knap").addEventListener("click", fortryd);
@@ -958,16 +1037,13 @@ $("#luk-menu").addEventListener("click", () => { $("#menu-lag").hidden = true; }
 $("#til-finale").addEventListener("click", () => { $("#menu-lag").hidden = true; aabnFinale(); });
 $("#ryd-spil").addEventListener("click", () => {
   $("#menu-lag").hidden = true;
-  opsaetNavne = S.spillere.map(p => p.navn);
-  opsaetTid = S.tid; opsaetLyd = S.lyd;
-  $("#app").hidden = true; $("#opsaet").hidden = false; $("#fortsaet-knap").hidden = true;
-  tegnOpsaet();
+  tilbageTilOpsaet();
 });
 $("#just-liste").addEventListener("click", e => {
   const b = e.target.closest("[data-just]");
   if(!b) return;
   snapshot();
-  S.spillere[+b.dataset.just].hm += +b.dataset.delta;
+  S.hold[+b.dataset.just].hm += +b.dataset.delta;
   gem(); tegnScore(); aabnMenu();
 });
 $("#tid-valg-2").addEventListener("click", e => {
@@ -982,11 +1058,38 @@ $("#lyd-valg-2").addEventListener("click", e => {
 });
 
 $("#tilfoej-spiller").addEventListener("click", () => {
-  laesNavne();
-  opsaetNavne.push("Deltager " + (opsaetNavne.length + 1));
+  laesOpsaet();
+  const n = "Deltager " + (opsaetDeltagere.length + 1);
+  opsaetDeltagere.push(n);
+  opsaetHold.reduce((mindst, h) => h.medlemmer.length < mindst.medlemmer.length ? h : mindst, opsaetHold[0]).medlemmer.push(n);
   tegnOpsaet();
 });
-$("#fjern-spiller").addEventListener("click", () => { laesNavne(); opsaetNavne.pop(); tegnOpsaet(); });
+$("#fjern-spiller").addEventListener("click", () => {
+  laesOpsaet();
+  const n = opsaetDeltagere.pop();
+  opsaetHold.forEach(h => { h.medlemmer = h.medlemmer.filter(m => m !== n); });
+  if(opsaetHold.length > opsaetDeltagere.length) saetAntalHold(opsaetDeltagere.length, false);
+  tegnOpsaet();
+});
+$("#hold-antal").addEventListener("click", e => {
+  const b = e.target.closest("[data-antal]");
+  if(!b || b.disabled) return;
+  laesOpsaet();
+  saetAntalHold(+b.dataset.antal, false);
+  tegnOpsaet();
+});
+$("#traek-lod").addEventListener("click", () => {
+  laesOpsaet();
+  saetAntalHold(opsaetHold.length, true);
+  tegnOpsaet();
+});
+$("#hold-liste").addEventListener("click", e => {
+  const b = e.target.closest("[data-flyt]");
+  if(!b) return;
+  laesOpsaet();
+  flytDeltager(b.dataset.flyt);
+  tegnOpsaet();
+});
 $("#tid-valg").addEventListener("click", e => {
   const b = e.target.closest("[data-tid]");
   if(!b) return;
@@ -998,8 +1101,14 @@ $("#lyd-valg").addEventListener("click", e => {
   opsaetLyd = +b.dataset.lyd; markerLyd("#lyd-valg", opsaetLyd);
 });
 $("#start-knap").addEventListener("click", () => {
-  laesNavne();
-  nytSpil(opsaetNavne, opsaetTid, opsaetLyd);
+  laesOpsaet();
+  const hold = opsaetHold.filter(h => h.medlemmer.length);
+  if(hold.length < 2){
+    $("#start-knap").textContent = "Der skal være mindst to hold med deltagere";
+    setTimeout(() => { $("#start-knap").textContent = "Start quizzen"; }, 2200);
+    return;
+  }
+  nytSpil(hold, opsaetTid, opsaetLyd);
   $("#opsaet").hidden = true; $("#app").hidden = false;
   holdSkaermTaendt(); if(S.lyd) bip(520,.1,.12);
   tegnAlt();
@@ -1018,11 +1127,13 @@ $("#fortsaet-knap").addEventListener("click", () => {
 tegnKurver();
 const gemt = hent();
 if(gemt){
-  const spillet = gemt.brugt.length;
   $("#fortsaet-knap").hidden = false;
-  $("#fortsaet-knap").textContent = "Fortsæt spil (" + spillet + "/" + (KATEGORIER.length * VAERDIER.length) + " felter taget)";
-  opsaetNavne = gemt.spillere.map(p => p.navn);
+  $("#fortsaet-knap").textContent = "Fortsæt spil (" + gemt.brugt.length + "/" + (KATEGORIER.length * VAERDIER.length) + " felter taget)";
+  opsaetDeltagere = gemt.hold.flatMap(h => h.medlemmer);
+  opsaetHold = gemt.hold.map(h => ({ navn: h.navn, medlemmer: h.medlemmer.slice() }));
   opsaetTid = gemt.tid; opsaetLyd = gemt.lyd;
+} else {
+  saetAntalHold(STANDARD_ANTAL_HOLD, false);
 }
 tegnOpsaet();
 </script>
