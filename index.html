@@ -120,6 +120,12 @@ input{font:inherit;color:inherit}
 .flise.brugt{color:#3A454F;background:#171B20;border-color:#222A31;border-style:dashed}
 .flise.brugt:active{transform:none}
 
+/* Mange kategorier: lavere fliser, så brættet stadig kan være på én skærm */
+.braet.taet{gap:8px}
+.braet.taet .kat{gap:5px}
+.braet.taet .kat h2{font-size:13px}
+.braet.taet .flise{aspect-ratio:1.55}
+
 @media (min-width:760px){
   .braet{display:grid;grid-template-columns:repeat(var(--kat,6),minmax(0,1fr));gap:8px;align-content:start;max-width:1100px;margin:0 auto;width:100%}
   .kat{gap:8px}
@@ -128,6 +134,8 @@ input{font:inherit;color:inherit}
   .rk{grid-template-columns:minmax(0,1fr);gap:8px}
   .flise{aspect-ratio:2.1;font-size:20px}
   .braet{justify-content:start}
+  .braet.taet .flise{aspect-ratio:2.1}
+  .braet.taet .kat h2{font-size:15px}
 }
 
 /* ---------- Overlay ---------- */
@@ -535,18 +543,48 @@ const KATEGORIER = [
     ]
   },
   {
-    navn: "Klub & årstal",
+    navn: "Fransk historie",
     spm: [
-      { q: "Real Madrid, januar 2005: hvilken dansker skiftede dertil fra Everton?",
-        a: "Thomas Gravesen" },
-      { q: "Brøndby, 2017: hvilken tjekkisk angriber blev hentet ind fra VfB Stuttgart?",
-        a: "Jan Kliment" },
-      { q: "Liverpool, sæsonen 2010/11: hvilken dansk midtbanespiller blev hentet fra Juventus?",
-        a: "Christian Poulsen" },
-      { q: "Juventus, sæsonen 2012/13: hvilken dansker spillede der på leje fra Arsenal?",
-        a: "Nicklas Bendtner" },
-      { q: "Inter, 2003 til 2005: hvilken dansk back kom dertil fra byrivalen AC Milan?",
-        a: "Thomas Helveg" }
+      { q: "Hvilken dato fejrer Frankrig sin nationaldag — dagen for stormen på Bastillen?",
+        a: "14. juli (1789)" },
+      { q: "Hvilken fransk kejser tabte slaget ved Waterloo i 1815?",
+        a: "Napoleon Bonaparte" },
+      { q: "Hvilken fransk konge kaldes Solkongen og byggede Versailles?",
+        a: "Ludvig 14." },
+      { q: "Hvad hedder det edikt, Henrik 4. udstedte i 1598, som gav de franske protestanter religionsfrihed?",
+        a: "Nantes-ediktet" },
+      { q: "Hvilken gallisk høvding samlede stammerne mod Julius Cæsar og måtte overgive sig ved Alesia i år 52 f.Kr.?",
+        a: "Vercingetorix" }
+    ]
+  },
+  {
+    navn: "Dansk-fransk",
+    spm: [
+      { q: "Hvilken franskfødt greve blev prinsgemal i Danmark, gift med dronning Margrethe?",
+        a: "Prins Henrik — født Henri de Laborde de Monpezat" },
+      { q: "Hvilken dansker vandt Tour de France i 1996 og indrømmede mange år senere doping?",
+        a: "Bjarne Riis" },
+      { q: "I hvilket år startede Tour de France i København med Grand Départ?",
+        a: "2022" },
+      { q: "Hvilken dansk prinsesse er født i Paris under navnet Marie Cavallier?",
+        a: "Prinsesse Marie — gift med prins Joachim" },
+      { q: "Hvad hedder den danske kongefamilies vinslot i Cahors i det sydvestlige Frankrig?",
+        a: "Château de Cayx" }
+    ]
+  },
+  {
+    navn: "Danskere i Ligue 1",
+    spm: [
+      { q: "Marseille, 2024: hvilken dansk midtbanespiller kom dertil fra Tottenham?",
+        a: "Pierre-Emile Højbjerg" },
+      { q: "Nice, 2019 til 2022: hvilken dansk angriber kom dertil fra Ajax?",
+        a: "Kasper Dolberg" },
+      { q: "Lille, 2014 til 2017: hvilken dansk midterforsvarer spillede der?",
+        a: "Simon Kjær" },
+      { q: "Toulouse, 2013 til 2017: hvilken dansk angriber spillede der, længe før han endte i Barcelona?",
+        a: "Martin Braithwaite" },
+      { q: "Évian Thonon Gaillard i Haute-Savoie, sæsonen 2011/12: hvilken dansk midtbanespiller spillede der efter sin tid i Liverpool?",
+        a: "Christian Poulsen" }
     ]
   }
 ];
@@ -693,6 +731,7 @@ function tegnBraet(){
 }
 function tegnAlt(){
   $("#braet").style.setProperty("--kat", KATEGORIER.length);
+  $("#braet").classList.toggle("taet", KATEGORIER.length > 6);
   $("#runde-navn").textContent = S.brugt.length >= KATEGORIER.length * VAERDIER.length ? "Klar til Toppen" : "Jeopardy";
   $("#fortryd-knap").disabled = fortrydStak.length === 0;
   tegnScore(); tegnBraet();
