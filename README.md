@@ -13,12 +13,13 @@ Der spilles om **højdemeter** i stedet for point: 500 / 1000 / 2000 / 3000 / **
 1. Skriv deltagernes navne ind, vælg antal hold, og tryk **Træk lod om holdene**. Tryk på et navn for at flytte det til næste hold, hvis lodtrækningen skal justeres, og skriv holdnavnene om efter smag. Tre hold er standard.
 2. Vælg betænkningstid og tryk **Start quizzen**.
 3. Holdet i tur vælger en kategori og en værdi. Quizmasteren trykker på feltet og læser spørgsmålet op.
-4. Uret løber. Tryk **Vis svar**, når et hold byder ind eller tiden er gået.
-5. Tryk ✓ ud for holdet, der svarede rigtigt (feltet lukkes), eller ✗ ud for et hold, der svarede forkert (feltet bliver åbent, så de andre hold kan byde).
-6. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil.
-7. **Toppen** — når alle felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
+4. Facit står i det stiplede felt nederst, kun på din skærm, fra det øjeblik spørgsmålet åbnes — du behøver ikke afsløre noget for at kunne dømme.
+5. Uret løber. Tryk **Vis svar og giv point**, når et hold byder ind eller tiden er gået.
+6. Tryk ✓ ud for holdet, der svarede rigtigt — så lukkes feltet. Tryk ✗ ud for et hold, der svarede forkert: de mister beløbet, men feltet bliver stående åbent, så de andre hold kan byde ind. Feltet lukker først ved et ✓ eller ved **Ingen tog den**.
+7. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil. Her lukker feltet uanset om svaret er rigtigt eller forkert.
+8. **Toppen** — når alle felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
 
-Menuen (☰) giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
+Menuen (☰) rummer **facitlisten** med alle spørgsmål og svar — god at læse igennem inden I går i gang — og giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
 
 Spillet gemmes løbende i browseren, så en utilsigtet genindlæsning ikke koster runden.
 

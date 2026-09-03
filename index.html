@@ -154,6 +154,29 @@ input{font:inherit;color:inherit}
 .svar .mrkt{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.18em;font-size:10px;color:var(--sne-dim);display:block;margin-bottom:4px}
 .svar p{margin:0;font-size:21px;font-weight:500;color:var(--messing);line-height:1.3;text-wrap:balance}
 
+.facit{
+  display:flex;align-items:baseline;gap:9px;margin-bottom:12px;padding:9px 11px;
+  border:1px dashed #3B4A3A;border-radius:var(--r);background:#191F19;
+}
+.facit b{
+  font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  font-size:9px;color:#7E8F79;white-space:nowrap;
+}
+.facit span{font-size:15px;font-weight:500;color:var(--groen);line-height:1.3}
+
+.facit-kat{margin-top:14px}
+.facit-kat h4{
+  margin:0 0 7px;font-family:var(--sk);font-weight:700;text-transform:uppercase;
+  letter-spacing:.11em;font-size:14px;color:var(--is);
+}
+.facit-rk{
+  display:grid;grid-template-columns:52px 1fr;gap:10px;padding:8px 0;
+  border-top:1px solid #232B33;
+}
+.facit-rk .v{font-family:var(--tal);font-variant-numeric:tabular-nums;font-size:12px;color:var(--messing)}
+.facit-rk .t{font-size:14px;line-height:1.4}
+.facit-rk .t em{font-style:normal;display:block;margin-top:3px;color:var(--groen);font-weight:500}
+
 .stor{
   width:100%;padding:15px;border-radius:var(--r);border:1px solid var(--is-dyb);
   background:#1A2A31;color:var(--is);
@@ -334,8 +357,12 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
     <div class="tildel" id="tildel"></div>
   </div>
 
+  <div class="facit" id="facit-linje">
+    <b>Facit&nbsp;· kun&nbsp;dig</b><span id="facit-tekst"></span>
+  </div>
+
   <div class="raekke" style="flex-direction:column;gap:8px">
-    <button class="stor" id="vis-svar">Vis svar</button>
+    <button class="stor" id="vis-svar">Vis svar og giv point</button>
     <button class="stor stille" id="luk-klue">Ingen tog den &ndash; luk</button>
   </div>
 </div>
@@ -380,11 +407,25 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
   </div>
 </div>
 
+<!-- ============ FACITLISTE ============ -->
+<div class="panel" id="facit-lag" hidden>
+  <div class="panel-ind">
+    <span class="spalte-mrk">Kun for quizmasteren</span>
+    <h1 class="hoved" style="font-size:clamp(26px,8vw,38px)">Facit<em>listen</em></h1>
+    <p class="under">Alle spørgsmål og svar. God at læse igennem inden I går i gang.</p>
+    <div id="facit-indhold"></div>
+    <button class="stor stille" id="luk-facit" style="margin-top:16px">Tilbage</button>
+  </div>
+</div>
+
 <!-- ============ MENU ============ -->
 <div class="panel" id="menu-lag" hidden>
   <div class="panel-ind">
     <span class="spalte-mrk">Quizmaster</span>
     <h1 class="hoved" style="font-size:clamp(26px,8vw,38px)">Menu</h1>
+
+    <h3 class="sek">Spørgsmål</h3>
+    <button class="stor" id="aabn-facit">Se facitlisten</button>
 
     <h3 class="sek">Ret højdemeter</h3>
     <div class="navne" id="just-liste"></div>
@@ -702,6 +743,8 @@ function visKlue(){
   $("#svar-tekst").textContent = s.a;
   $("#klue-svar").hidden = true;
   $("#vis-svar").hidden = false;
+  $("#facit-tekst").textContent = s.a;
+  $("#facit-linje").hidden = false;
   $("#luk-klue").textContent = "Ingen tog den – luk";
   $("#klue-lag").hidden = false;
   $("#klue-lag").scrollTop = 0;
@@ -709,6 +752,7 @@ function visKlue(){
 }
 function visSvar(){
   stopUr();
+  $("#facit-linje").hidden = true;
   $("#vis-svar").hidden = true;
   $("#klue-svar").hidden = false;
   tegnTildel();
@@ -804,6 +848,8 @@ function startFinaleKlue(){
   $("#svar-tekst").textContent = FINALE.a;
   $("#klue-svar").hidden = true;
   $("#vis-svar").hidden = false;
+  $("#facit-tekst").textContent = FINALE.a;
+  $("#facit-linje").hidden = false;
   $("#luk-klue").textContent = "Afslut og se resultatet";
   $("#klue-lag").hidden = false;
   $("#klue-lag").scrollTop = 0;
@@ -934,6 +980,28 @@ function tilbageTilOpsaet(){
   tegnOpsaet();
 }
 
+/* ---------- Facitlisten ---------- */
+function aabnFacit(){
+  $("#facit-indhold").innerHTML = KATEGORIER.map(k => `
+    <div class="facit-kat">
+      <h4>${esc(k.navn)}</h4>
+      ${k.spm.map((sp, vi) => `
+        <div class="facit-rk">
+          <span class="v">${VAERDIER[vi]}</span>
+          <span class="t">${esc(sp.q)}<em>${esc(sp.a)}</em></span>
+        </div>`).join("")}
+    </div>`).join("") + `
+    <div class="facit-kat">
+      <h4>Toppen · ${esc(FINALE.kategori)}</h4>
+      <div class="facit-rk">
+        <span class="v">finale</span>
+        <span class="t">${esc(FINALE.q)}<em>${esc(FINALE.a)}</em></span>
+      </div>
+    </div>`;
+  $("#facit-lag").hidden = false;
+  $("#facit-lag").scrollTop = 0;
+}
+
 /* ---------- Menu ---------- */
 function aabnMenu(){
   $("#just-liste").innerHTML = S.hold.map((h, i) =>
@@ -1002,7 +1070,7 @@ $("#braet").addEventListener("click", e => {
   if(f && !f.disabled) aabnFelt(f.dataset.felt);
 });
 $("#vis-svar").addEventListener("click", () => {
-  if(aktiv && aktiv.finale){ stopUr(); $("#vis-svar").hidden = true; $("#klue-svar").hidden = false; tegnFinaleTildel(); }
+  if(aktiv && aktiv.finale){ stopUr(); $("#facit-linje").hidden = true; $("#vis-svar").hidden = true; $("#klue-svar").hidden = false; tegnFinaleTildel(); }
   else visSvar();
 });
 $("#luk-klue").addEventListener("click", () => {
@@ -1050,6 +1118,8 @@ $("#nyt-spil").addEventListener("click", () => {
 $("#fortryd-knap").addEventListener("click", fortryd);
 $("#menu-knap").addEventListener("click", aabnMenu);
 $("#luk-menu").addEventListener("click", () => { $("#menu-lag").hidden = true; });
+$("#aabn-facit").addEventListener("click", aabnFacit);
+$("#luk-facit").addEventListener("click", () => { $("#facit-lag").hidden = true; });
 $("#til-finale").addEventListener("click", () => { $("#menu-lag").hidden = true; aabnFinale(); });
 $("#ryd-spil").addEventListener("click", () => {
   $("#menu-lag").hidden = true;
