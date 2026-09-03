@@ -19,7 +19,7 @@ Der spilles om **højdemeter** i stedet for point: 500 / 1000 / 2000 / 3000 / **
 7. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil. Her lukker feltet uanset om svaret er rigtigt eller forkert.
 8. **Toppen** — når alle felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
 
-Menuen (☰) rummer **facitlisten** med alle spørgsmål og svar — god at læse igennem inden I går i gang — og giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
+Menuen (☰) rummer **facitlisten** med alle spørgsmål og svar — god at læse igennem inden I går i gang — og giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, springe direkte til finalen med **Spring til finalen** eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
 
 Spillet gemmes løbende i browseren, så en utilsigtet genindlæsning ikke koster runden.
 
