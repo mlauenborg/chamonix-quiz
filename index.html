@@ -127,15 +127,39 @@ input{font:inherit;color:inherit}
 .braet.taet .flise{aspect-ratio:1.55}
 
 @media (min-width:760px){
-  .braet{display:grid;grid-template-columns:repeat(var(--kat,6),minmax(0,1fr));gap:8px;align-content:start;max-width:1100px;margin:0 auto;width:100%}
-  .kat{gap:8px}
-  .kat h2{font-size:15px;min-height:44px;align-items:flex-start;text-align:center;justify-content:center}
+  /* Ét sammenhængende gitter, så alle kategoriers rækker flugter */
+  .braet{
+    display:grid;
+    grid-template-columns:repeat(var(--kat,6),minmax(0,1fr));
+    grid-template-rows:auto repeat(5,minmax(56px,1fr));
+    grid-auto-flow:column;
+    gap:8px;max-width:1400px;margin:0 auto;width:100%;
+    padding:16px 20px calc(20px + var(--sikker-bund));
+  }
+  .braet .kat,
+  .braet .rk{display:contents}
+  .kat h2{
+    font-size:15px;text-align:center;justify-content:center;align-items:center;
+    padding-bottom:4px;overflow-wrap:anywhere;
+  }
   .kat h2::after{display:none}
-  .rk{grid-template-columns:minmax(0,1fr);gap:8px}
-  .flise{aspect-ratio:2.1;font-size:20px}
-  .braet{justify-content:start}
-  .braet.taet .flise{aspect-ratio:2.1}
-  .braet.taet .kat h2{font-size:15px}
+  .flise{aspect-ratio:auto;height:100%;font-size:20px}
+  .braet.taet .kat h2{font-size:14px}
+
+}
+
+/* Musen findes kun på pc — giv den noget at reagere på */
+@media (hover:hover) and (pointer:fine){
+  .flise:not(.brugt):hover{background:var(--granit-3);border-color:var(--is-dyb)}
+  .flise.top:not(.brugt):hover{border-color:var(--messing)}
+  .stor:hover{background:#22383F}
+  .stor.stille:hover{background:var(--granit-3);color:var(--sne)}
+  .mini:hover{background:var(--granit-3);color:var(--sne)}
+  .chip:hover{background:#22383F}
+  .dom.ja:hover{background:#27381F}
+  .dom.nej:hover{background:#3A2220}
+  .facit:hover{border-color:var(--is-dyb)}
+  .ikonknap:not(:disabled):hover{background:var(--granit-3);color:var(--sne)}
 }
 
 /* ---------- Overlay ---------- */
@@ -290,6 +314,17 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
 .plads .n{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:18px}
 .plads .h{font-family:var(--tal);font-variant-numeric:tabular-nums;font-weight:600;font-size:17px;color:var(--messing)}
 .tom{color:var(--sne-dim);font-size:14px;text-align:center;padding:16px}
+/* Sidst i filen, så det slår basisreglerne for .klue og .lag */
+@media (min-width:760px){
+  .lag{padding:30px 24px calc(24px + var(--sikker-bund))}
+  .lag > *{max-width:880px;width:100%;margin-inline:auto}
+  .klue{max-width:22ch;font-size:clamp(34px,3.2vw,50px)}
+  .svar p{font-size:24px}
+  .tildel-rk{padding:7px}
+  .dom{height:42px}
+  .panel-ind{max-width:600px}
+}
+
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 </head>

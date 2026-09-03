@@ -2,6 +2,7 @@
 
 Interaktiv jeopardy-quiz til vennegruppen, bygget til at blive kørt af én quizmaster fra en telefon.
 
+- **Telefon og pc.** Layoutet skifter selv: kategorirækker i portræt, klassisk Jeopardy-gitter på en skærm over 760 px.
 - **1 fil, ingen installation.** Åbn `index.html` i browseren. Virker offline (kun skrifttyperne hentes fra nettet).
 - **Holdspil.** 7 deltagere fordelt på 2–5 hold, med lodtrækning indbygget. Quizmasteren står udenfor.
 - **40 spørgsmål** i otte kategorier: Chamonix-dalen, geografi og natur, ekstremsport, outdoor-mærker, fransk mad, fransk historie, dansk-franske relationer — og "Danskere i Ligue 1", hvor en fransk klub og et årstal skal oversættes til en dansk spiller.
