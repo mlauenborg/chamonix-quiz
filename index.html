@@ -155,14 +155,18 @@ input{font:inherit;color:inherit}
 .svar p{margin:0;font-size:21px;font-weight:500;color:var(--messing);line-height:1.3;text-wrap:balance}
 
 .facit{
-  display:flex;align-items:baseline;gap:9px;margin-bottom:12px;padding:9px 11px;
-  border:1px dashed #3B4A3A;border-radius:var(--r);background:#191F19;
+  display:flex;align-items:baseline;gap:9px;width:100%;text-align:left;
+  margin-bottom:12px;padding:9px 11px;
+  border:1px dashed #33413A;border-radius:var(--r);background:#161B19;
 }
+.facit:active{background:#1C231E}
+.facit[aria-expanded="true"]{border-style:solid;border-color:#3B4A3A;background:#191F19}
 .facit b{
   font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spacing:.16em;
   font-size:9px;color:#7E8F79;white-space:nowrap;
 }
 .facit span{font-size:15px;font-weight:500;color:var(--groen);line-height:1.3}
+.facit i{font-style:normal;font-size:12px;color:#5C6960;letter-spacing:.02em}
 
 .facit-kat{margin-top:14px}
 .facit-kat h4{
@@ -357,9 +361,9 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
     <div class="tildel" id="tildel"></div>
   </div>
 
-  <div class="facit" id="facit-linje">
-    <b>Facit&nbsp;· kun&nbsp;dig</b><span id="facit-tekst"></span>
-  </div>
+  <button class="facit" id="facit-linje" type="button" aria-expanded="false">
+    <b>Facit&nbsp;· kun&nbsp;dig</b><span id="facit-tekst" hidden></span><i id="facit-hint">tryk for at se</i>
+  </button>
 
   <div class="raekke" style="flex-direction:column;gap:8px">
     <button class="stor" id="vis-svar">Vis svar og giv point</button>
@@ -735,6 +739,13 @@ function aabnFelt(id){
   aktiv = { id, ki, vi, vaerdi: VAERDIER[vi], spalte: S.spalter.includes(id), indsats: null, spiller: null };
   if(aktiv.spalte) visSpalte(); else visKlue();
 }
+function foldFacit(svar){
+  $("#facit-tekst").textContent = svar;
+  $("#facit-tekst").hidden = true;
+  $("#facit-hint").hidden = false;
+  $("#facit-linje").setAttribute("aria-expanded", "false");
+  $("#facit-linje").hidden = false;
+}
 function visKlue(){
   const k = KATEGORIER[aktiv.ki], s = k.spm[aktiv.vi];
   $("#klue-kat").textContent = aktiv.spalte ? "Spalten · " + k.navn : k.navn;
@@ -743,8 +754,7 @@ function visKlue(){
   $("#svar-tekst").textContent = s.a;
   $("#klue-svar").hidden = true;
   $("#vis-svar").hidden = false;
-  $("#facit-tekst").textContent = s.a;
-  $("#facit-linje").hidden = false;
+  foldFacit(s.a);
   $("#luk-klue").textContent = "Ingen tog den – luk";
   $("#klue-lag").hidden = false;
   $("#klue-lag").scrollTop = 0;
@@ -848,8 +858,7 @@ function startFinaleKlue(){
   $("#svar-tekst").textContent = FINALE.a;
   $("#klue-svar").hidden = true;
   $("#vis-svar").hidden = false;
-  $("#facit-tekst").textContent = FINALE.a;
-  $("#facit-linje").hidden = false;
+  foldFacit(FINALE.a);
   $("#luk-klue").textContent = "Afslut og se resultatet";
   $("#klue-lag").hidden = false;
   $("#klue-lag").scrollTop = 0;
@@ -1075,6 +1084,12 @@ $("#vis-svar").addEventListener("click", () => {
 });
 $("#luk-klue").addEventListener("click", () => {
   if(aktiv && aktiv.finale) afslutFinale(); else lukKlue(true);
+});
+$("#facit-linje").addEventListener("click", () => {
+  const aaben = $("#facit-tekst").hidden;
+  $("#facit-tekst").hidden = !aaben;
+  $("#facit-hint").hidden = aaben;
+  $("#facit-linje").setAttribute("aria-expanded", String(aaben));
 });
 $("#tildel").addEventListener("click", e => {
   const b = e.target.closest("[data-dom]");
