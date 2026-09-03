@@ -13,7 +13,7 @@ Der spilles om **højdemeter** i stedet for point: 500 / 1000 / 2000 / 3000 / **
 1. Skriv deltagernes navne ind, vælg antal hold, og tryk **Træk lod om holdene**. Tryk på et navn for at flytte det til næste hold, hvis lodtrækningen skal justeres, og skriv holdnavnene om efter smag. Tre hold er standard.
 2. Vælg betænkningstid og tryk **Start quizzen**.
 3. Holdet i tur vælger en kategori og en værdi. Quizmasteren trykker på feltet og læser spørgsmålet op.
-4. Facit står i det stiplede felt nederst, kun på din skærm, fra det øjeblik spørgsmålet åbnes — du behøver ikke afsløre noget for at kunne dømme.
+4. Det stiplede felt nederst er **Facit · kun dig**. Tryk på det, og det rigtige svar folder sig ud på din skærm alene — uret kører videre imens, og et nyt tryk skjuler det igen. Hvert spørgsmål starter foldet sammen, så facit ikke ligger fremme, hvis nogen kigger med.
 5. Uret løber. Tryk **Vis svar og giv point**, når et hold byder ind eller tiden er gået.
 6. Tryk ✓ ud for holdet, der svarede rigtigt — så lukkes feltet. Tryk ✗ ud for et hold, der svarede forkert: de mister beløbet, men feltet bliver stående åbent, så de andre hold kan byde ind. Feltet lukker først ved et ✓ eller ved **Ingen tog den**.
 7. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil. Her lukker feltet uanset om svaret er rigtigt eller forkert.
