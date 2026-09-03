@@ -4,7 +4,7 @@ Interaktiv jeopardy-quiz til vennegruppen, bygget til at blive kørt af én quiz
 
 - **1 fil, ingen installation.** Åbn `index.html` i browseren. Virker offline (kun skrifttyperne hentes fra nettet).
 - **Holdspil.** 7 deltagere fordelt på 2–5 hold, med lodtrækning indbygget. Quizmasteren står udenfor.
-- **30 spørgsmål** i seks kategorier om Chamonix, Mont Blanc, ski, lavinesikkerhed, après-ski og bjerge.
+- **35 spørgsmål** i syv kategorier: Chamonix-dalen, Mont Blanc, ski, lavinesikkerhed, après-ski, bjerge — og "Klub & årstal", hvor et klubnavn og et årstal skal oversættes til en spiller.
 
 ## Sådan spiller I
 
@@ -16,7 +16,7 @@ Der spilles om **højdemeter** i stedet for point: 500 / 1000 / 2000 / 3000 / **
 4. Uret løber. Tryk **Vis svar**, når et hold byder ind eller tiden er gået.
 5. Tryk ✓ ud for holdet, der svarede rigtigt (feltet lukkes), eller ✗ ud for et hold, der svarede forkert (feltet bliver åbent, så de andre hold kan byde).
 6. **Spalten** — to tilfældige felter er skjulte daily doubles. Kun det hold, der valgte feltet, må svare, og sætter selv sine højdemeter på spil.
-7. **Toppen** — når alle 30 felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
+7. **Toppen** — når alle felter er taget, går spillet automatisk i finale. Hvert hold skriver en indsats *før* spørgsmålet læses op, og der afregnes til sidst.
 
 Menuen (☰) giver adgang til at rette holdenes højdemeter manuelt, skifte betænkningstid og lyd, hoppe direkte til finalen eller nulstille. Pilen ved siden af fortryder sidste pointtildeling.
 

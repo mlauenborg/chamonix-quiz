@@ -95,7 +95,7 @@ input{font:inherit;color:inherit}
 .hold .hm{font-family:var(--tal);font-variant-numeric:tabular-nums;font-weight:600;font-size:17px;margin-top:1px;line-height:1.1}
 .hold .hm.minus{color:var(--roed)}
 .hold .hm small{font-size:10px;color:var(--sne-dim);font-weight:500;margin-left:2px}
-.hold .med{font-size:10px;line-height:1.3;color:#6E7C88;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hold .med{font-size:10px;line-height:1.3;color:#6E7C88;margin-top:2px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 
 /* ---------- Brættet ---------- */
 .braet{flex:1;padding:12px 14px calc(18px + var(--sikker-bund));display:flex;flex-direction:column;gap:10px;justify-content:space-between}
@@ -121,7 +121,7 @@ input{font:inherit;color:inherit}
 .flise.brugt:active{transform:none}
 
 @media (min-width:760px){
-  .braet{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-content:start;max-width:1100px;margin:0 auto;width:100%}
+  .braet{display:grid;grid-template-columns:repeat(var(--kat,6),minmax(0,1fr));gap:8px;align-content:start;max-width:1100px;margin:0 auto;width:100%}
   .kat{gap:8px}
   .kat h2{font-size:15px;min-height:44px;align-items:flex-start;text-align:center;justify-content:center}
   .kat h2::after{display:none}
@@ -286,7 +286,7 @@ h3.sek{font-family:var(--sk);font-weight:600;text-transform:uppercase;letter-spa
         <b>1&nbsp;035&nbsp;m</b> dalen <span>4&nbsp;810&nbsp;m toppen</span>
       </div>
     </div>
-    <p class="under">30 spørgsmål i seks kategorier. Holdene spiller om højdemeter &ndash; jo sværere spørgsmål, jo højere op. Quizmasteren styrer alt herfra.</p>
+    <p class="under" id="intro-tekst">Holdene spiller om højdemeter &ndash; jo sværere spørgsmål, jo højere op. Quizmasteren styrer alt herfra.</p>
 
     <h3 class="sek">Deltagere</h3>
     <div class="navne" id="navne"></div>
@@ -417,16 +417,16 @@ const KATEGORIER = [
   {
     navn: "Chamonix-dalen",
     spm: [
-      { q: "Hvilket land ligger Chamonix i?",
-        a: "Frankrig (departementet Haute-Savoie)" },
-      { q: "Hvad hedder svævebanen, der på få minutter tager dig op i 3.842 meters højde over byen?",
-        a: "Aiguille du Midi" },
-      { q: "Hvad hedder den store gletsjer over Chamonix, hvis navn betyder “Ishavet”?",
-        a: "Mer de Glace" },
-      { q: "Chamonix er forbundet med Italien af en 11,6 km lang tunnel. Hvilken italiensk bjergby ender den i?",
-        a: "Courmayeur" },
       { q: "Byen hedder ikke bare “Chamonix” — hvad er det fulde officielle navn?",
-        a: "Chamonix-Mont-Blanc" }
+        a: "Chamonix-Mont-Blanc" },
+      { q: "Hvilken flod løber gennem Chamonix-dalen?",
+        a: "Arve — L'Arve" },
+      { q: "Hvilket lille tandhjulstog kører fra Chamonix op til udsigten over Mer de Glace?",
+        a: "Montenvers-toget (Le Montenvers)" },
+      { q: "Mont Blanc-tunnelen er 11,6 km lang. Hvilken italiensk by kommer man ud i?",
+        a: "Courmayeur" },
+      { q: "Hvad hedder bjergkæden på den modsatte dalside af Mont Blanc-massivet — den med Le Brévent og La Flégère?",
+        a: "Aiguilles Rouges — “de røde nåle”" }
     ]
   },
   {
@@ -434,29 +434,29 @@ const KATEGORIER = [
     spm: [
       { q: "Hvor høj er Mont Blanc — på 100 meter nær?",
         a: "Ca. 4.810 m (højden måles hvert år og svinger omkring 4.805–4.810)" },
-      { q: "Hvad betyder “Mont Blanc” på dansk?",
-        a: "Det hvide bjerg" },
-      { q: "I hvilket årti blev Mont Blanc besteget første gang — 1680'erne, 1780'erne eller 1880'erne?",
-        a: "1780'erne — nærmere bestemt 1786" },
-      { q: "Hvad hedder de to mænd, der nåede toppen først i 1786?",
+      { q: "I hvilket år blev Mont Blanc besteget første gang?",
+        a: "1786" },
+      { q: "Hvad hed de to mænd, der nåede toppen først?",
         a: "Jacques Balmat og Michel Paccard" },
-      { q: "Hvilket 170 km langt løb går hele vejen rundt om Mont Blanc-massivet med start og mål i Chamonix?",
-        a: "UTMB — Ultra-Trail du Mont-Blanc" }
+      { q: "Hvilken schweizisk videnskabsmand udlovede dusøren for den første bestigning — og gik selv til tops året efter?",
+        a: "Horace-Bénédict de Saussure" },
+      { q: "Hvad hedder den klassiske normalrute til toppen, opkaldt efter hytten i knap 3.850 meters højde?",
+        a: "Goûter-ruten — via Refuge du Goûter" }
     ]
   },
   {
     navn: "Ski & bræt",
     spm: [
-      { q: "Hvilken farve har den sværeste pistemarkering i Frankrig?",
-        a: "Sort" },
-      { q: "Hvad kalder man det at køre uden for de markerede pister?",
-        a: "Off-piste" },
       { q: "Hvilken skiteknik med fri hæl er opkaldt efter et norsk landskab?",
         a: "Telemark" },
       { q: "Hvad hedder de klæbende “skind”, man sætter under skiene for at kunne gå opad?",
         a: "Fælde — også kaldet stigefeller eller skins" },
+      { q: "Hvad kalder franskmændene en smal, stejl rende mellem klipperne, som man kan køre ned igennem?",
+        a: "Et couloir" },
       { q: "Hvad hedder den ca. 20 km lange gletsjernedkørsel fra Aiguille du Midi ned mod Chamonix?",
-        a: "Vallée Blanche" }
+        a: "Vallée Blanche" },
+      { q: "Vallée Blanche begynder ikke med en nedkørsel. Hvad skal man først ned ad fra Aiguille du Midi?",
+        a: "Arêten — den smalle, udsatte snerygg" }
     ]
   },
   {
@@ -466,42 +466,57 @@ const KATEGORIER = [
         a: "Lavinesender, skovl og søgestang" },
       { q: "Fra og til hvilke tal går den europæiske lavinefareskala?",
         a: "Fra 1 til 5" },
-      { q: "Hvilken hældning er mest lavinefarlig — hvor mange grader?",
-        a: "Omkring 30–45 grader, med de fleste ulykker ved 35–40" },
       { q: "Hvor mange minutter har man cirka til at grave en lavinebegravet fri, før overlevelseschancen falder drastisk?",
         a: "Ca. 15 minutter" },
-      { q: "Hvad hedder en revne i en gletsjer — på dansk eller fransk?",
-        a: "En spalte (fransk: crevasse)" }
+      { q: "Hvilken hældning er mest lavinefarlig — hvor mange grader?",
+        a: "Omkring 30–45 grader, med de fleste ulykker ved 35–40" },
+      { q: "På hvilken frekvens sender og modtager alle lavinesendere i verden?",
+        a: "457 kHz" }
     ]
   },
   {
     navn: "Après-ski",
     spm: [
-      { q: "I hvilken ret dypper man brød ned i en gryde med smeltet ost?",
-        a: "Fondue" },
       { q: "Hvilken ret skraber man smeltet af en halv ost direkte ned på tallerkenen?",
         a: "Raclette" },
-      { q: "Hvilken alpin fadret består af kartofler, bacon, løg og Reblochon-ost?",
+      { q: "Hvilken alpin fadret består af kartofler, bacon, løg og en blød savoyard-ost?",
         a: "Tartiflette" },
-      { q: "Hvilken fransk anis-spiritus bliver mælkehvid, når man hælder vand i?",
-        a: "Pastis" },
-      { q: "Hvilken grøn urtelikør på 55 % brygges af franske munke og har lagt navn til en farve?",
+      { q: "Og hvilken ost fra Haute-Savoie skal der i en ægte tartiflette?",
+        a: "Reblochon" },
+      { q: "Hvilken lokal urtesnaps fra Alperne laves på en bjergplante og drikkes som fordøjelsesdram?",
+        a: "Génépi" },
+      { q: "Hvilken grøn urtelikør på 55 % brygges af franske munke efter en opskrift fra 1600-tallet — og har lagt navn til en farve?",
         a: "Chartreuse" }
     ]
   },
   {
     navn: "Bjerge & rekorder",
     spm: [
-      { q: "Hvor mange bjerge i verden er over 8.000 meter høje?",
-        a: "14" },
       { q: "Hvilket bjerg er afbildet på en Toblerone?",
         a: "Matterhorn" },
+      { q: "Hvor mange bjerge i verden er over 8.000 meter høje?",
+        a: "14" },
       { q: "Hvilken by var vært for de allerførste vinter-OL — og i hvilket år?",
         a: "Chamonix, i 1924" },
-      { q: "Hvem har vundet flest World Cup-løb nogensinde i alpint skiløb?",
-        a: "Mikaela Shiffrin" },
-      { q: "Hvilke tre lande mødes omkring Mont Blanc-massivet?",
-        a: "Frankrig, Italien og Schweiz" }
+      { q: "Hvilket 170 km langt løb går hele vejen rundt om Mont Blanc-massivet med start og mål i Chamonix?",
+        a: "UTMB — Ultra-Trail du Mont-Blanc" },
+      { q: "Hvem var den første til at bestige alle 14 ottetusindere?",
+        a: "Reinhold Messner — færdig i 1986" }
+    ]
+  },
+  {
+    navn: "Klub & årstal",
+    spm: [
+      { q: "Manchester United, Champions League-finalen i 1999: hvilken dansker stod i målet?",
+        a: "Peter Schmeichel" },
+      { q: "Tottenham, 2013 til 2020: hvilken dansk midtbanespiller kom fra Ajax og fortsatte til Inter?",
+        a: "Christian Eriksen" },
+      { q: "Barcelona 1989–94 og Real Madrid 1994–96: hvilken dansker vandt det spanske mesterskab fem år i træk?",
+        a: "Michael Laudrup" },
+      { q: "AC Milan, 1998 til 2003: hvilken dansk back var fast mand i fem sæsoner?",
+        a: "Thomas Helveg" },
+      { q: "Manchester United, 2011 til 2015: hvilken dansk målmand sad på bænken bag David de Gea?",
+        a: "Anders Lindegaard" }
     ]
   }
 ];
@@ -647,6 +662,7 @@ function tegnBraet(){
     </section>`).join("");
 }
 function tegnAlt(){
+  $("#braet").style.setProperty("--kat", KATEGORIER.length);
   $("#runde-navn").textContent = S.brugt.length >= KATEGORIER.length * VAERDIER.length ? "Klar til Toppen" : "Jeopardy";
   $("#fortryd-knap").disabled = fortrydStak.length === 0;
   tegnScore(); tegnBraet();
@@ -1125,6 +1141,9 @@ $("#fortsaet-knap").addEventListener("click", () => {
 
 /* ---------- Start ---------- */
 tegnKurver();
+$("#intro-tekst").textContent =
+  (KATEGORIER.length * VAERDIER.length) + " spørgsmål i " + KATEGORIER.length +
+  " kategorier. " + $("#intro-tekst").textContent;
 const gemt = hent();
 if(gemt){
   $("#fortsaet-knap").hidden = false;
